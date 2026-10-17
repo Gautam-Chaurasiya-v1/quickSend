@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>QuickSend · A little closer</title><link rel="icon" href="icons/48.png"><link rel="stylesheet" href="app.css"></head>
+<body>
+<div id="app" class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="app.html" aria-label="QuickSend home"><span class="brand-mark">↗</span><span>quicksend<span class="brand-dot">.</span></span></a>
+    <p class="sidebar-caption">GOOD FINDS. BETTER COMPANY.</p>
+    <div class="sidebar-heading"><span>YOUR ROOMS</span><button id="new-room" class="icon-button" title="Create a room" aria-label="Create a room">+</button></div>
+    <nav id="rooms" aria-label="Your rooms"></nav>
+    <button id="join-room" class="join-button"><span>⌁</span> Join with an invitation</button>
+    <div class="sidebar-bottom"><div class="private-note"><span class="shield">◇</span><div><strong>Just between you two.</strong><p>Link content is encrypted<br>before it leaves your device.</p></div></div><button id="settings" class="profile"><span id="profile-avatar" class="avatar">Q</span><span><strong id="profile-name">Your space</strong><small id="profile-detail">Set up your identity</small></span><span class="settings-icon">⚙</span></button></div>
+  </aside>
+  <main>
+    <header class="topbar"><div class="breadcrumb">Your space <span>/</span> <strong id="breadcrumb-room">Welcome</strong></div><div class="topbar-actions"><span id="connection" class="connection"><i></i> Private by design</span><button id="create-top" class="icon-button" title="Create a room" aria-label="Create a room">+</button><button id="settings-top" class="icon-button" title="Settings and backup" aria-label="Settings and backup">⚙</button><button id="expand" class="icon-button" title="Open full view" aria-label="Open full view">↗</button><button id="refresh" class="icon-button" title="Refresh inbox" aria-label="Refresh inbox">⟳</button></div></header>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <section id="onboarding" class="onboarding" hidden>
+      <div class="intro-badge"><span>↗</span> A SMALL SPACE FOR GOOD FINDS</div>
+      <h1>“You have to<br>watch this.”<span>Send it here.</span></h1>
+      <p class="intro-copy">Less copying. Less getting lost in chat.<br>Just you, your person, and the next great video.</p>
+      <form id="connect-form" class="setup-card">
+        <div class="step-label"><span>01</span> MAKE YOURSELF AT HOME</div>
+        <label for="display-name">What should your friend call you?</label><input id="display-name" name="name" placeholder="Your first name" maxlength="40" autocomplete="given-name" required>
+        <p class="field-help">Your shared server is ready. Just choose a name.</p>
+        <details><summary>Advanced · use another server</summary><label for="server-url">Shared server</label><input id="server-url" name="server" type="url" required><p class="field-help">Both people must use the same server. Change this only for self-hosting or local development.</p></details>
+        <button class="button primary full" type="submit">Create my private space <span>↗</span></button>
+        <p class="local-identity">No email. No phone number. Your identity lives on this device.</p>
+      </form>
+      <button id="pair-onboarding" class="text-button">Already use QuickSend? Pair this browser ↗</button><br><button id="restore-onboarding" class="text-button">Already have a backup? Restore your identity ↗</button><div class="intro-footer"><span>◎ Two-person rooms</span><span>◇ Encrypted link content</span><span>↗ Chrome + Brave</span></div>
+    </section>
+    <section id="workspace" hidden>
+      <div class="room-header"><div><p class="eyebrow" id="room-eyebrow">YOUR PRIVATE CORNER OF THE INTERNET</p><h1 id="room-title">Good things travel.</h1><p id="room-subtitle">Make a room. Bring your person. Share something good.</p></div><button id="room-menu" class="button secondary" hidden>Room details <span>↗</span></button></div>
+      <section id="compose" class="compose" hidden>
+        <div class="compose-icon">↗</div><div class="compose-body"><span class="eyebrow">PASS SOMETHING GOOD ALONG</span><h2 id="current-title">What are we watching?</h2><form id="share-form"><label class="sr-only" for="video-url">YouTube video link</label><input id="video-url" type="url" placeholder="Paste a YouTube video link" required><label class="sr-only" for="video-title-input">Video title</label><input id="video-title-input" placeholder="Give this find a title (optional)" maxlength="300"><label class="sr-only" for="video-note">Optional note</label><input id="video-note" placeholder="A little context? (optional)" maxlength="500"><div class="compose-bottom"><span id="share-context">Only this link is shared.</span><button id="send" class="button primary" type="submit">Share video <span>↗</span></button></div></form></div>
+      </section>
+      <section id="pairing" class="pairing" hidden></section>
+      <section id="outbox" class="outbox" hidden></section>
+      <div id="feed-header" class="feed-header"><div><h2>The shared shelf <span id="feed-count"></span></h2><p>A little collection of things worth your time.</p></div><span class="feed-label">YOUTUBE · V1</span></div>
+      <div id="feed" class="feed"></div>
+      <button id="load-older" class="button secondary older" hidden>Load older videos</button>
+      <div id="empty" class="empty" hidden><div class="empty-art"><span class="art-card one">↗</span><span class="art-card two">▶</span><span class="spark">✧</span></div><h2>The best finds start with “look at this.”</h2><p id="empty-text">Create your first room and invite someone<br>you love sending videos to.</p><button id="empty-create" class="button primary">Create your first room <span>+</span></button></div>
+      <footer class="workspace-footer"><span>◇ Encrypted content. No ad tracking.</span><span>Made for sharing, not scrolling.</span></footer>
+    </section>
+  </main>
+</div>
+<dialog id="modal"><div class="modal-head"><span class="eyebrow" id="modal-eyebrow">QUICKSEND</span><button id="close-modal" class="icon-button" aria-label="Close dialog">×</button></div><div id="modal-content"></div></dialog>
+<script type="module" src="app.js"></script>
+</body>
+</html>

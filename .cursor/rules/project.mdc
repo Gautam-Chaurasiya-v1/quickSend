@@ -1,0 +1,5 @@
+---
+description: Shared QuickSend repository instructions for all project work
+alwaysApply: true
+---
+Read @AGENTS.md first and follow its linked canonical documents as relevant. Repository skills are under `.agents/skills/`. Keep shared knowledge in AGENTS.md and docs rather than adding duplicate rules here.

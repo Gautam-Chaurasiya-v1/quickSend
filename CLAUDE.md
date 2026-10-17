@@ -1,0 +1,1 @@
+Read [AGENTS.md](AGENTS.md) first. It is the shared project guide and links the architecture, security boundaries, status, and repository skills. Keep project knowledge there instead of duplicating it here.

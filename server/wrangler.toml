@@ -1,0 +1,17 @@
+name = "quicksend-rooms"
+account_id = "9ed504724a834b3f78e9b326ada169c7"
+main = "worker.js"
+compatibility_date = "2026-10-17"
+workers_dev = true
+
+[observability]
+enabled = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "quicksend"
+database_id = "6ea164b1-3c6d-40fe-b8ca-a4849e63c800"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["19 3 * * *"]
