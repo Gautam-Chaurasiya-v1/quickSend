@@ -10,7 +10,7 @@ Start with [AGENTS.md](AGENTS.md), which is also the cross-agent handoff guide. 
 6. Update CHANGELOG and relevant docs. State whether a migration or deployment is still needed and what remains manual.
 7. Review `git diff --check` and staged files for secrets and generated artifacts. Open a PR when requested, or push to the user-authorized destination.
 
-CI runs verification on pushes and pull requests. It has read-only repository permissions and performs no automatic deployment. Generated builds are reproducible with `npm run build`; release ZIPs are not source files.
+CI runs verification on pushes and pull requests with read-only repository permissions. The separately scoped release workflow publishes downloads only on pushed version tags, with contents-write on its release job. Neither deploys Cloudflare. Follow docs/DISTRIBUTION.md before tagging a release. Generated builds are reproducible with `npm run build`; release ZIPs are not source files.
 
 Vendored dependencies must be pinned, carry their license and origin in `THIRD_PARTY_NOTICES.md`, and execute locally. Review upgrades explicitly; do not fetch executable code at runtime.
 

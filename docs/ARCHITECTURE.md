@@ -9,6 +9,7 @@ QuickSend uses JavaScript ES modules and browser-native Web Crypto. The MV3 popu
 | Device operations | Pairing request, encrypted snapshot, restore validation | `extension/lib/pairing.js` |
 | Protocol primitives | AES-GCM, ECDH/HKDF, fingerprints, password backups | `extension/lib/crypto.js` |
 | Storage | Trusted extension local storage or development localStorage, serialized updates | `extension/lib/storage.js` |
+| Capture/compose | Active-tab metadata, bounded draft restoration, destination selection | `extension/lib/compose.js` |
 | Transport | Bounded authenticated requests, timeout, redirect rejection | `extension/lib/api.js` |
 | Configuration/input | Public default origin, explicit override, canonical URLs and invites | `extension/lib/config.js`, `validation.js` |
 | QR | Pinned local generator, locally assembled SVG image | `extension/lib/qr.js`, `extension/vendor/qrcode.mjs` |
@@ -40,3 +41,12 @@ Numbered SQL migrations are append-only. D1 records applied migrations. The curr
 Existing `/v1` identity/room/message APIs retain their v1 wire formats. New `/v1/device-pairings` POST creates a capability session; `/v1/device-pairings/:id` GET/POST/DELETE uses the session capability, not a room identity token. This intentionally works before onboarding. Its 20 starts/IP bucket/hour limit is separate from identity traffic. Requests are bounded to 100 KB only on the relay; encrypted snapshots to 65,536 base64 characters; ordinary API requests remain 16 KB/8,192-character envelopes. The receiving browser validates all restored fields before installation.
 
 Production API CORS permits extension origins only. The invite page has a `connect-src 'none'` CSP and no room access. Development explicitly enables loopback website origins. CORS is not an authorization mechanism: every room operation also checks the bearer identity and membership.
+
+
+## Compact sharing and distribution (0.4)
+
+On action-popup open, captureYouTube queries only the invoked active tab, canonicalizes recognized YouTube video/Short/live URLs, and cleans the tab title. It needs no new permission or content script. Title freshness depends on YouTube/browser tab metadata. Capture failures allow manual entry. Full view never queries the active tab.
+
+The popup selects its stored destination, otherwise the first ready room or first pending room. Changing rooms does not reset the compose form. A single local composeDraft restores matching video edits for up to 24 hours; a different capture drops the previous note. These drafts are local plaintext like identity keys and become encrypted only on send; they are not server-synced, part of backups, or included in device snapshots. Sending or queueing clears the draft. The popup polls room metadata but skips message fetching/read acknowledgement, so opening it does not consume unread inbox state.
+
+GitHub Releases hosts the downloadable ZIP. scripts/package.js invokes the system zip utility and writes SHA256SUMS. A matching version tag triggers verification and release publication, with contents-write scoped to that job. No remote code is loaded by an installed extension and no automatic unpacked-extension update is attempted. See DISTRIBUTION.md for the boundary between download hosting and browser-managed installation.

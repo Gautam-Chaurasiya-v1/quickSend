@@ -2,7 +2,7 @@
 
 A browser extension for the moment you think, “you have to watch this.” Two people pair once, then share YouTube videos in a private inbox. Chrome and Brave use the same MV3 extension.
 
-**Status:** source release 0.3.0 adds simpler onboarding, invitation links/QR, and approved browser pairing. See [current release/deployment status](docs/STATUS.md). Working local application and deployed Cloudflare Worker/D1 backend, with automated integration tests and browser-tested room pairing and bidirectional sharing. Chrome installation, popup rendering, and full-page opening were verified. Full extension lifecycle testing remains manual because browser automation blocks extension URLs. Not independently security-audited. Do not describe it as hack-proof or audited production software.
+**Status:** source release 0.4.0 adds a compact sharing popup and free automated GitHub release downloads, on top of invitation links/QR and approved browser pairing. See [current release/deployment status](docs/STATUS.md). Working local application and deployed Cloudflare Worker/D1 backend, with automated integration tests and browser-tested room pairing and bidirectional sharing. Chrome installation, popup rendering, and full-page opening were verified. Full extension lifecycle testing remains manual because browser automation blocks extension URLs. Not independently security-audited. Do not describe it as hack-proof or audited production software.
 
 ## Run locally — no accounts or purchases
 
@@ -27,6 +27,10 @@ Invitations expire in 15 minutes and work once. The backend retains message ciph
 
 ## Load the extension in Chrome or Brave
 
+For friends, [download the latest ready-to-load ZIP](https://github.com/Gautam-Chaurasiya-v1/quickSend/releases/latest/download/quicksend-extension.zip), extract it, and choose the extracted folder in step 2. No Node.js or build is needed. Keep the folder in place after installation. [Release and update instructions](docs/DISTRIBUTION.md).
+
+For developers, build from source:
+
 ```sh
 npm run verify
 ```
@@ -39,7 +43,9 @@ npm run verify
 
 **Localhost is only your own computer.** Two people on different computers need the public HTTPS backend described below. Your friend must use the same deployed server origin.
 
-The popup captures the active video’s canonical link and title when you click the extension. Add an optional note, select the room, and Share. The full view is available from the ↗ button. Full view supports pasted URLs; it does not inspect other tabs.
+The 360px popup captures the active YouTube video’s canonical link and cleaned title when you click the extension. It opens your only room or remembers the previous room. With multiple rooms, change the destination using the compact To selector. Add a note if wanted, then Send (or Ctrl/⌘ + Enter). These are the only three input fields; room management and the inbox are under **Rooms & inbox**.
+
+The popup restores drafts for the same video for up to 24 hours; a newly captured different video starts without the previous note. No new permissions, page scripts, title API requests, remote thumbnails, or background browsing capture are used. Full view supports pasted URLs and does not inspect other tabs. Opening the popup alone does not mark inbox messages read. If YouTube has not updated its tab title yet, the captured title may need editing; page-content scraping is not implemented.
 
 ### Use your identity in both Chrome and Brave
 
@@ -132,10 +138,11 @@ Read [docs/SECURITY.md](docs/SECURITY.md) before deploying publicly. Content enc
 npm test          # Encryption, auth, room membership, invitations, message delivery
 npm run check     # Syntax, minimal manifest, matching popup/full-page shells
 npm run build     # dist/extension + SHA-256 file checksums
+npm run package   # Release ZIP + SHA256SUMS (requires system zip)
 npm run verify    # All of the above
 ```
 
-CI runs `npm run verify` on Node 24. There are no third-party test dependencies. Browser testing is recorded in [docs/TESTING.md](docs/TESTING.md). Local integration tests do not replace a deployed Cloudflare smoke test or testing extension lifecycle behavior in both browsers.
+CI runs `npm run verify` on Node 24. A separately scoped tag-triggered workflow publishes free versioned ZIP releases; see [distribution](docs/DISTRIBUTION.md). There are no third-party test dependencies. Browser testing is recorded in [docs/TESTING.md](docs/TESTING.md). Local integration tests do not replace a deployed Cloudflare smoke test or testing extension lifecycle behavior in both browsers.
 
 Potential next features: per-video saved/read state, reactions, push notifications, automatic device-key synchronization, audited account recovery, and a mobile companion. Keep future formats versioned and migrate database changes explicitly.
 

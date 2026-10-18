@@ -1,5 +1,15 @@
 # Change log
 
+## 0.4.0 — 2026-10-18
+
+- Replace the popup dashboard with a compact 360px sharing surface: destination, link, title, optional note, and Send. Keep inbox/management in full view.
+- Automatically capture/canonicalize the invoked YouTube tab URL and clean notification counts/YouTube suffixes from its title. Retain the existing activeTab permission and add no page scripts or metadata network requests.
+- Remember the selected room, choose the only/first ready room when needed, preserve input while changing destination, and focus the optional note.
+- Restore local compose drafts for the same video for up to 24 hours; prevent a different captured video from inheriting a note. Clear drafts after a sent or queued share.
+- Add Ctrl/Command + Enter, visible sending/sent states, compact onboarding and pending-room handling. Do not fetch/mark inbox messages read from the popup.
+- Add free GitHub release distribution: ZIP/checksum packaging, matching-version tag validation, tag-triggered release workflow, public download link, and invite-page install/download instructions. Installed unpacked extensions still require manual installation and updates.
+- Update official CI action versions to their current Node-compatible releases and document release trust/permissions and beta limitations.
+
 ## 0.3.0 — 2026-10-18
 
 - Default to the existing public QuickSend server; keep a self-hosting override under Advanced.

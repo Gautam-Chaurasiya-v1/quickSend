@@ -65,3 +65,8 @@ Rollback: retain the additive pairing table and redeploy the previous Worker if 
 - Temporary OAuth refreshed the same previously approved account/user read, Workers Scripts write, D1 write, and required background access scopes; credentials remained outside the repository and the temporary CLI session was logged out after cleanup.
 
 Reports are in ignored `artifacts/live-smoke-report.json` and `artifacts/live-pairing-smoke-report.json`. GitHub CI verifies and packages; it does not deploy this service.
+
+
+## 0.4.0 scope
+
+The extension popup and GitHub release automation change without a new database migration. The Worker change only adds the public release download button and installation steps to the isolated invitation page; API formats, room limits, encryption, cron, and Free-plan resources are unchanged. See the final deployment entry below for actual publication status. Release download publication is separate from Cloudflare deployment.

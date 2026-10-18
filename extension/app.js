@@ -1,3 +1,4 @@
+import { captureYouTube, selectedRoom, composeDraft } from './lib/compose.js';
 import { DEFAULT_SERVER } from './lib/config.js';
 import { qrDataUrl } from './lib/qr.js';
 import { startPairing, parsePairing, approveDevice, receiveDevice, cancelPairing, restoreSnapshot, validateSnapshot } from './lib/pairing.js';
@@ -8,7 +9,8 @@ import { client, connect, listRooms, createRoom, inviteRoom, joinRoom, approvePe
 
 const $=id=>document.getElementById(id);
 const state={ctx:null,rooms:[],selected:null,messages:[],hasMore:false,currentVideo:null,refreshing:false};
-if(location.pathname.endsWith('/popup.html'))document.body.classList.add('popup');
+const isPopup=location.pathname.endsWith('/popup.html');
+if(isPopup)document.body.classList.add('popup');
 function el(tag,className,text) {const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
 function notice(text,error=false){$('notice').textContent=text;$('notice').classList.toggle('error',error);$('notice').hidden=!text;}
 function modal(title){$('modal-content').replaceChildren();$('modal-content').append(el('h2',null,title));if(!$('modal').open)$('modal').showModal();return $('modal-content');}
@@ -31,13 +33,14 @@ function newRoom(){if(!state.ctx){notice('Connect your private space first.');re
   const form=el('form'),name=labelInput(form,'Room name','text','e.g. The rabbit hole');name.required=true;name.maxLength=60;
   formSubmit(form,'Create room ↗',async()=>{const created=await createRoom(name.value);state.selected=created.id;await storage.set('selectedRoom',created.id);$('modal').close();await refresh();await showInvite(room());});body.append(form);name.focus();
 }
-for(const id of ['new-room','empty-create','create-top'])$(id).onclick=newRoom;
+for(const id of ['new-room','empty-create','create-top','quick-create'])$(id).onclick=newRoom;
 function joinDialog(){if(!state.ctx){notice('Connect your private space first.');return;}
   const body=modal('Meet you inside.');paragraph(body,'Paste the invitation your friend sent you. They will approve your device before you can share.');
   const form=el('form'),label=el('label',null,'Invitation link or code'),input=el('textarea');input.placeholder='Invitation link or qs1.…';input.required=true;input.maxLength=2000;label.htmlFor='invite-input';input.id='invite-input';form.append(label,input);
   formSubmit(form,'Request to join ↗',async()=>{parseInvite(input.value);const response=await joinRoom(input.value);state.selected=response.roomId;await storage.set('selectedRoom',response.roomId);$('modal').close();await refresh();notice('Request sent. Compare your device fingerprint with your friend, then ask them to approve you.');});body.append(form);input.focus();
 }
 $('join-room').onclick=joinDialog;
+$('quick-join').onclick=joinDialog;
 async function showInvite(value){if(!value)return;
   const invitation=await inviteRoom(value.id);const body=modal('Good company, invited.');
   paragraph(body,`Send this link privately to your friend. It works once and expires at ${new Date(invitation.expiresAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}. You still approve who joins.`);
@@ -49,12 +52,21 @@ async function showInvite(value){if(!value)return;
 }
 function renderRooms(){
   $('rooms').replaceChildren();
+  $('quick-room').replaceChildren();
+  for(const value of state.rooms){const option=el('option',null,value.name);option.value=value.id;$('quick-room').append(option);}
+  $('quick-room').value=state.selected||'';
+  $('quick-room').hidden=state.rooms.length<=1;
+  $('quick-room-name').hidden=state.rooms.length>1;
+  $('quick-room-name').textContent=room()?.name||'';
+  $('quick-destination').hidden=!state.rooms.length;
+  $('quick-empty').hidden=Boolean(state.rooms.length);
   for(const value of state.rooms){const b=el('button',`room-button${value.id===state.selected?' selected':''}`);b.type='button';b.setAttribute('aria-pressed',String(value.id===state.selected));
     const a=el('span','room-avatar',(value.name||'Room').slice(0,2).toUpperCase());const info=el('span','room-label');info.append(el('strong',null,value.name||'Unverified room'),el('small',null,value.keyError?'Needs attention':value.status==='pending'?'Waiting for approval':value.peer?.status==='active'?`With ${value.peer.name}`:value.peer?'Join request received':'Waiting for your person'));
     b.append(a,info);if(value.unread)b.append(el('span','unread',value.unread));b.onclick=async()=>{state.selected=value.id;await storage.set('selectedRoom',value.id);state.messages=[];await refresh(true);};$('rooms').append(b);
   }
   if(!state.rooms.length)$('rooms').append(el('p','room-skeleton','Your first room is a good place to start.'));
 }
+$('quick-room').onchange=async()=>{state.selected=$('quick-room').value;await storage.set('selectedRoom',state.selected);await refresh();};
 function renderPairing(value){const area=$('pairing');area.replaceChildren();area.hidden=true;if(!value)return;
   if(value.keyError){area.hidden=false;area.append(el('h2',null,'Let’s check this connection.'),el('p',null,value.keyError));return;}
   if(value.status==='pending'){area.hidden=false;area.append(el('h2',null,'Your seat is saved.'),el('p',null,'Your friend needs to approve this device. Share your fingerprint with them using a channel you already trust.'));area.append(button('Show my fingerprint',()=>showFingerprint()));return;}
@@ -73,10 +85,9 @@ function renderSelected(changed=false){const value=room();
   $('room-subtitle').textContent=value?(value.status==='active'&&value.peer?.status==='active'?`A private shelf for you and ${value.peer.name}.`:'A little space. Just waiting for good company.'):'Make a room. Bring your person. Share something good.';
   $('room-menu').hidden=!value;$('feed-header').hidden=!value || value.status==='pending';
   $('compose').hidden=!value || value.status!=='active' || value.peer?.status!=='active' || Boolean(value.keyError) || !value.local;
-  if(changed){$('video-note').value='';$('video-title-input').value=state.currentVideo?.title||'';if(state.currentVideo){$('video-url').value=state.currentVideo.url;$('current-title').textContent=state.currentVideo.title||'Ready to pass this along?';}else{$('video-url').value='';$('current-title').textContent='What are we watching?';}}
   renderPairing(value);
 }
-function renderFeed(){const value=room();$('feed').replaceChildren();$('feed-count').textContent=state.messages.length||'';$('load-older').hidden=!state.hasMore;
+function renderFeed(){if(isPopup)return;const value=room();$('feed').replaceChildren();$('feed-count').textContent=state.messages.length||'';$('load-older').hidden=!state.hasMore;
   for(const entry of [...state.messages].reverse()){
     if(entry.error){$('feed').append(el('div','message-error',entry.error));continue;}
     const content=entry.content,card=el('article','video-card'),cover=el('a','video-cover');cover.href=content.url;cover.target='_blank';cover.rel='noopener noreferrer';cover.setAttribute('aria-label',`Watch ${content.title||'YouTube video'}`);cover.append(el('span','cover-play','▶'),el('span','cover-tag','YOUTUBE · A GOOD FIND'));
@@ -95,9 +106,10 @@ async function renderOutbox(){const items=await storage.get('outbox')||[];$('out
 async function refresh(changed=false){if(!state.ctx || state.refreshing)return;state.refreshing=true;
   try{
     const previous=state.selected;state.rooms=await listRooms();
-    if(!state.rooms.some(r=>r.id===state.selected))state.selected=state.rooms[0]?.id||null;
+    state.selected=selectedRoom(state.rooms,state.selected);
+    if(previous!==state.selected)await storage.set('selectedRoom',state.selected);
     changed=changed||previous!==state.selected;renderRooms();renderSelected(changed);
-    const value=room();if(value?.local && value.status==='active'&&!value.keyError){const response=await getMessages(value);state.messages=response.messages;state.hasMore=response.hasMore;
+    const value=room();if(!isPopup && value?.local && value.status==='active'&&!value.keyError){const response=await getMessages(value);state.messages=response.messages;state.hasMore=response.hasMore;
       if(!value.offline && response.messages.length && response.messages.every(m=>!m.error) && document.visibilityState==='visible' && document.hasFocus()){
         await state.ctx.api.request(`/rooms/${value.id}/read`,{method:'POST',body:{seq:response.messages.at(-1).seq}});value.unread=0;renderRooms();
       }
@@ -111,8 +123,14 @@ $('refresh').onclick=()=>task($('refresh'),()=>refresh());
 $('load-older').onclick=()=>task($('load-older'),async()=>{const response=await getMessages(room(),state.messages[0]?.seq);state.messages=[...response.messages,...state.messages];state.hasMore=response.hasMore;renderFeed();});
 $('share-form').onsubmit=event=>{event.preventDefault();task($('send'),async()=>{
   const url=youtubeVideo($('video-url').value);if(!url)throw new Error('Choose a valid YouTube video, Short, or live stream.');
+  $('video-url').value=url;
   const title=$('video-title-input').value.trim() || (state.currentVideo?.url===url?state.currentVideo.title:'A video worth sharing');
-  const sent=await sendVideo(room(),{url,title:title.slice(0,300),note:$('video-note').value.trim()});$('video-note').value='';notice(sent?'A good find, passed along.':'Saved to your encrypted outbox. We’ll retry when you’re online.');await refresh();
+  const controls=['video-url','video-title-input','video-note','quick-room'];
+  for(const id of controls)$(id).disabled=true;
+  $('send').textContent='Sending…';
+  let sent;try{sent=await sendVideo(room(),{url,title:(title||'YouTube video').slice(0,300),note:$('video-note').value.trim()});}finally{$('send').textContent='Send ↗';for(const id of controls)$(id).disabled=false;}
+  $('video-note').value='';await storage.set('composeDraft',null);
+  $('quick-capture').textContent=state.currentVideo?'YouTube link & title captured':'Ready to share another video.';notice(sent?'Sent ✓':'Saved to your encrypted outbox. We’ll retry when you’re online.');await refresh();
 });};
 $('room-menu').onclick=()=>{const value=room(),body=modal(value.name);paragraph(body,'Two people. One shared shelf. Message content expires from the server after 90 days.');
   if(value.peer?.status==='active')paragraph(body,`Connected with ${value.peer.name}.`);
@@ -131,7 +149,7 @@ async function settingsDialog(){if(!state.ctx){restoreDialog();return;}const bod
   const privacy=el('div','settings-row');privacy.append(el('h3',null,'What stays private'),el('p',null,'Links, titles, and notes are encrypted. The server sees display names, room membership, message sizes and timing. No WhatsApp access, analytics, or automatic thumbnail requests. Keys on this device are not protected from malware or someone using your unlocked browser.'));body.append(privacy);
   const outbox=await storage.get('outbox')||[];if(outbox.length){const pending=el('div','settings-row');pending.append(el('h3',null,'Unsent videos'));for(const item of outbox){paragraph(pending,item.error||'Waiting for connection.');pending.append(button('Discard this unsent video',async()=>{await update('outbox',values=>(values||[]).filter(value=>value.id!==item.id));await settingsDialog();await renderOutbox();},'secondary'));}body.append(pending);}
 }
-for(const id of ['settings','settings-top'])$(id).onclick=()=>settingsDialog().catch(e=>notice(e.message,true));
+for(const id of ['settings','settings-top','quick-settings'])$(id).onclick=()=>settingsDialog().catch(e=>notice(e.message,true));
 function backupDialog(){const body=modal('Take your space with you.');paragraph(body,'This file contains your identity and room keys, encrypted with your password. Keep both safe. We cannot recover a forgotten password.');
   const form=el('form'),password=labelInput(form,'Backup password (12+ characters)','password');password.minLength=12;password.required=true;password.autocomplete='new-password';
   formSubmit(form,'Download encrypted backup',async()=>{const value={v:1,settings:await storage.get('settings'),identity:await storage.get('identity'),roomKeys:await storage.get('roomKeys')||{},pins:await storage.get('pins')||{}};
@@ -155,7 +173,9 @@ function restoreDialog(){const body=modal('Welcome back.');paragraph(body,'Resto
   });body.append(form);
 }
 $('restore-onboarding').onclick=restoreDialog;
-$('expand').onclick=()=>{if(isExtension)chrome.tabs.create({url:chrome.runtime.getURL('app.html')});else window.open('app.html','_blank','noopener');};
+function openFullView(){if(isExtension)chrome.tabs.create({url:chrome.runtime.getURL('app.html')});else window.open('app.html','_blank','noopener');}
+$('expand').onclick=openFullView;
+$('quick-expand').onclick=openFullView;
 function verificationForm(body,label,onVerified){
   const form=el('form'),line=el('label','check-label'),check=el('input');check.type='checkbox';check.required=true;
   line.append(check,el('span',null,label));form.append(line);formSubmit(form,'Confirm and continue',async()=>{if(check.checked)await onVerified();});body.append(form);
@@ -193,7 +213,18 @@ async function boot(){state.ctx=await client();$('onboarding').hidden=Boolean(st
   state.selected=await storage.get('selectedRoom');
   await refresh(true);
 }
-async function captureVideo(){if(!isExtension)return;const [tab]=await chrome.tabs.query({active:true,currentWindow:true});const url=youtubeVideo(tab?.url);if(url)state.currentVideo={url,title:(tab.title||'YouTube video').replace(/^\(\d+\)\s*/, '').replace(/\s*[-–] YouTube$/,'')};}
-await captureVideo();await boot();
+async function prepareCompose(){
+  if(isPopup && isExtension)state.currentVideo=await captureYouTube(chrome.tabs);
+  const draft=composeDraft(state.currentVideo,isPopup?await storage.get('composeDraft'):null);
+  $('video-url').value=draft.url;$('video-title-input').value=draft.title;$('video-note').value=draft.note;
+  $('current-title').textContent=state.currentVideo?.title||'What are we watching?';
+  $('quick-capture').textContent=state.currentVideo?'YouTube link & title captured':draft.url?'Draft restored · check the link before sending':'Open on a YouTube video to capture it, or paste a link.';
+}
+for(const id of ['video-url','video-title-input','video-note'])$(id).addEventListener('input',()=>{
+  if(isPopup)storage.set('composeDraft',{url:$('video-url').value,title:$('video-title-input').value,note:$('video-note').value,updatedAt:Date.now()}).catch(()=>notice('Could not save this draft.',true));
+});
+$('share-form').addEventListener('keydown',event=>{if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)&&!$('send').disabled){event.preventDefault();$('share-form').requestSubmit($('send'));}});
+await prepareCompose();await boot();
+if(isPopup && !$('compose').hidden)$('video-note').focus();
 setInterval(()=>{if(state.ctx && document.visibilityState==='visible'&&!$('modal').open)refresh();},15000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&state.ctx)refresh();});

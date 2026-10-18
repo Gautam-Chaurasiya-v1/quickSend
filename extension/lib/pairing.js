@@ -55,7 +55,7 @@ export async function restoreSnapshot(value) {
   await validateSnapshot(value);
   if((await storage.get('outbox')||[]).length)throw new Error('Send or discard unsent videos before restoring.');
   await new Api(value.settings.server,value.identity).request('/rooms');
-  const restored={identity:value.identity,settings:{server:value.settings.server},roomKeys:value.roomKeys,pins:value.pins||{},selectedRoom:null,cachedRooms:[],cachedMessages:{},devicePairing:null};
+  const restored={identity:value.identity,settings:{server:value.settings.server},roomKeys:value.roomKeys,pins:value.pins||{},selectedRoom:null,cachedRooms:[],cachedMessages:{},devicePairing:null,composeDraft:null};
   if(isExtension)await chrome.storage.local.set(restored);
   else for(const [key,data] of Object.entries(restored))await storage.set(key,data);
 }

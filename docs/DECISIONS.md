@@ -19,3 +19,12 @@ Use `https://server/invite#invite=...` so HTTP requests omit the invitation capa
 ## 005 — Shared agent knowledge
 
 AGENTS.md is the cross-model entry point. Agent-specific adapters point to it. Architecture, security, deployment, and test evidence remain canonical Markdown. Project skills provide focused procedures and link those documents instead of copying them. No external memory service, paid agent service, or model-specific runtime is required.
+
+
+## 006 — Focused action popup
+
+The popup optimizes sending: active-tab URL/title, remembered destination, optional note, and Send. Room management and inbox reading live in full view, so the popup does not fetch or mark messages read. Browser tab metadata avoids extra permissions/page injection and preserves the existing privacy boundary, with a known freshness limitation for YouTube SPA titles. Drafts are bounded by size and restoration age and never applied across different videos.
+
+## 007 — Free release downloads before store publication
+
+Use the existing public GitHub repository for stable versioned download assets and a tag-triggered release workflow. This removes manual ZIP distribution without adding paid infrastructure. Developer-mode installation/updates remain manual; do not describe release hosting as store publication or automatic browser installation. Defer stable-ID website messaging until it has narrow origin/message validation and actual extension runtime tests. Keep ordinary CI read-only and release write access scoped to its publishing job.

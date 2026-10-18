@@ -17,7 +17,8 @@ test('room invitation links retain pinned owner, accept legacy codes, and reject
   assert.match(qrDataUrl(link),/^data:image\/svg\+xml,/);
   const page=landingResponse(new Request(link));assert.equal(page.status,200);
   assert.match(page.headers.get('Content-Security-Policy'),/connect-src 'none'/);
-  assert.ok(!(await page.text()).includes(code));
+  const html=await page.text();assert.ok(!html.includes(code));
+  assert.match(html,/releases\/latest\/download\/quicksend-extension\.zip/);
 });
 
 test('device relay: scoped capability, pinned keys, encrypted snapshot, idempotency, expiry and cancellation',async t=>{
@@ -79,7 +80,9 @@ test('client pairs a new browser, validates identity before writing, and deletes
   const transfer=await receiveDevice(session);assert.equal(transfer.fingerprint,await fingerprint(owner.identity.publicKey));
   const wrong=await generateIdentity('Wrong');
   await assert.rejects(()=>validateSnapshot({...transfer.snapshot,identity:{...owner.identity,publicKey:wrong.publicKey}}));
+  await storage.set('composeDraft',{note:'Previous identity draft'});
   await restoreSnapshot(transfer.snapshot);await cancelPairing(session);
+  assert.equal(await storage.get('composeDraft'),null);
   assert.equal((await client()).identity.id,owner.identity.id);assert.equal((await storage.get('roomKeys'))[room.id].key,room.key);
   assert.equal((await DB.prepare('SELECT COUNT(*) count FROM device_pairings').first()).count,0);
 });

@@ -12,11 +12,12 @@
     <div class="sidebar-bottom"><div class="private-note"><span class="shield">◇</span><div><strong>Just between you two.</strong><p>Link content is encrypted<br>before it leaves your device.</p></div></div><button id="settings" class="profile"><span id="profile-avatar" class="avatar">Q</span><span><strong id="profile-name">Your space</strong><small id="profile-detail">Set up your identity</small></span><span class="settings-icon">⚙</span></button></div>
   </aside>
   <main>
+    <header class="quick-header quick-only"><strong>quicksend<span>↗</span></strong><button id="quick-settings" class="icon-button" title="Settings" aria-label="Settings">⚙</button></header>
     <header class="topbar"><div class="breadcrumb">Your space <span>/</span> <strong id="breadcrumb-room">Welcome</strong></div><div class="topbar-actions"><span id="connection" class="connection"><i></i> Private by design</span><button id="create-top" class="icon-button" title="Create a room" aria-label="Create a room">+</button><button id="settings-top" class="icon-button" title="Settings and backup" aria-label="Settings and backup">⚙</button><button id="expand" class="icon-button" title="Open full view" aria-label="Open full view">↗</button><button id="refresh" class="icon-button" title="Refresh inbox" aria-label="Refresh inbox">⟳</button></div></header>
     <div id="notice" role="status" aria-live="polite" hidden></div>
     <section id="onboarding" class="onboarding" hidden>
       <div class="intro-badge"><span>↗</span> A SMALL SPACE FOR GOOD FINDS</div>
-      <h1>“You have to<br>watch this.”<span>Send it here.</span></h1>
+      <h1>“You have to <br>watch this.”<span>Send it here.</span></h1>
       <p class="intro-copy">Less copying. Less getting lost in chat.<br>Just you, your person, and the next great video.</p>
       <form id="connect-form" class="setup-card">
         <div class="step-label"><span>01</span> MAKE YOURSELF AT HOME</div>
@@ -29,9 +30,12 @@
       <button id="pair-onboarding" class="text-button">Already use QuickSend? Pair this browser ↗</button><br><button id="restore-onboarding" class="text-button">Already have a backup? Restore your identity ↗</button><div class="intro-footer"><span>◎ Two-person rooms</span><span>◇ Encrypted link content</span><span>↗ Chrome + Brave</span></div>
     </section>
     <section id="workspace" hidden>
+      <div id="quick-destination" class="quick-only quick-destination"><label for="quick-room">To</label><select id="quick-room" aria-label="Destination room"></select><strong id="quick-room-name"></strong></div>
+      <p id="quick-capture" class="quick-only quick-capture"></p>
+      <section id="quick-empty" class="quick-only quick-empty" hidden><p>Create a room or join your friend to start sharing.</p><div><button id="quick-create" class="button secondary">Create room</button><button id="quick-join" class="button secondary">Join room</button></div></section>
       <div class="room-header"><div><p class="eyebrow" id="room-eyebrow">YOUR PRIVATE CORNER OF THE INTERNET</p><h1 id="room-title">Good things travel.</h1><p id="room-subtitle">Make a room. Bring your person. Share something good.</p></div><button id="room-menu" class="button secondary" hidden>Room details <span>↗</span></button></div>
       <section id="compose" class="compose" hidden>
-        <div class="compose-icon">↗</div><div class="compose-body"><span class="eyebrow">PASS SOMETHING GOOD ALONG</span><h2 id="current-title">What are we watching?</h2><form id="share-form"><label class="sr-only" for="video-url">YouTube video link</label><input id="video-url" type="url" placeholder="Paste a YouTube video link" required><label class="sr-only" for="video-title-input">Video title</label><input id="video-title-input" placeholder="Give this find a title (optional)" maxlength="300"><label class="sr-only" for="video-note">Optional note</label><input id="video-note" placeholder="A little context? (optional)" maxlength="500"><div class="compose-bottom"><span id="share-context">Only this link is shared.</span><button id="send" class="button primary" type="submit">Share video <span>↗</span></button></div></form></div>
+        <div class="compose-icon">↗</div><div class="compose-body"><span class="eyebrow">PASS SOMETHING GOOD ALONG</span><h2 id="current-title">What are we watching?</h2><form id="share-form"><label class="compose-label" for="video-url">YouTube link</label><input id="video-url" type="url" maxlength="2000" autocomplete="off" spellcheck="false" placeholder="Paste a YouTube video link" required><label class="compose-label" for="video-title-input">Title</label><input id="video-title-input" placeholder="Video title" maxlength="300"><label class="compose-label" for="video-note">Note <span>optional</span></label><input id="video-note" placeholder="Add a note…" maxlength="500"><div class="compose-bottom"><span id="share-context">Only this link is shared.</span><button id="send" class="button primary" type="submit">Send <span>↗</span></button></div></form></div>
       </section>
       <section id="pairing" class="pairing" hidden></section>
       <section id="outbox" class="outbox" hidden></section>
@@ -39,6 +43,7 @@
       <div id="feed" class="feed"></div>
       <button id="load-older" class="button secondary older" hidden>Load older videos</button>
       <div id="empty" class="empty" hidden><div class="empty-art"><span class="art-card one">↗</span><span class="art-card two">▶</span><span class="spark">✧</span></div><h2>The best finds start with “look at this.”</h2><p id="empty-text">Create your first room and invite someone<br>you love sending videos to.</p><button id="empty-create" class="button primary">Create your first room <span>+</span></button></div>
+      <footer class="quick-only quick-footer"><button id="quick-expand" class="text-button">Rooms &amp; inbox ↗</button><span>⌘ / Ctrl + Enter to send</span></footer>
       <footer class="workspace-footer"><span>◇ Encrypted content. No ad tracking.</span><span>Made for sharing, not scrolling.</span></footer>
     </section>
   </main>

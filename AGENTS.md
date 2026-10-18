@@ -10,6 +10,7 @@ QuickSend is a Manifest V3 extension for two-person encrypted YouTube sharing ro
 - Current work, release/deployment gaps: `docs/STATUS.md`.
 - Verification evidence and manual checks: `docs/TESTING.md`.
 - Deployment identifiers and procedure: `docs/DEPLOYMENT.md`.
+- Free distribution and version-tag publication: `docs/DISTRIBUTION.md`.
 - Design conventions: `docs/DESIGN.md`; rationale: `docs/DECISIONS.md`.
 - Workflow: `CONTRIBUTING.md`; history: `CHANGELOG.md`.
 
@@ -22,6 +23,7 @@ Node 24+, no dependency install required. `npm run dev` serves loopback port 878
 ## Invariants
 
 - Keep `extension/app.html` and `popup.html` byte-identical. Popup behavior is a body class selected by path.
+- Keep the popup focused on destination, three fields, and Send; inbox/management belong in full view. Do not mark hidden inbox messages read.
 - No content scripts, WhatsApp access, remote executable code, telemetry, external thumbnails, or broad required host permissions. Backend access is optional and requested on a user gesture.
 - Keep message AAD, room wrapping, device transfer, and backup formats versioned and separated. Never silently change the v1 wire protocol.
 - Room approval pins the exact peer key. A room has two members maximum, including pending. Closing either active member closes the room; never reuse its key with a replacement peer.

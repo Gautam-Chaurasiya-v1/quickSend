@@ -49,3 +49,16 @@ Chrome Gautam → Brave Extra, using the HTTP preview on localhost:8788: created
 This is browser-preview evidence, not Brave extension lifecycle coverage. QR image rendering is verified, physical camera decoding is not. Migration 0002 and the Worker update are now deployed. The updated public backend passed 12 room/API and 8 pairing/landing smoke checks. Live expiration waiting was not performed; automated shared-handler tests cover expiration and retention. Refer to DEPLOYMENT for the actual version.
 
 Chrome also opened the invitation link, displayed its code, and cleared the fragment from the visible URL. No physical QR scan was performed.
+
+
+## 0.4.0 compact popup verification — October 18, 2026
+
+Automated: 20 tests pass, including active-tab-only metadata extraction, tracking removal/title cleanup, missing/restricted-tab fallback, destination selection after room removal, matching/expired/oversized drafts, and prevention of note carryover to another captured video. The real activeTab permission/YouTube runtime remains manual; mocked tab metadata is not browser capture evidence.
+
+Chrome Gautam HTTP preview at localhost:8787/popup.html: ready form measured 360px wide / 403px document height, exactly three visible fields and a single-room destination label; entered a link/title/note, reloaded and observed the restored draft; used Ctrl/Command+Enter, observed Sending then Sent, cleared note, and confirmed canonical received URL/title/note in Chrome Peer QA at 127.0.0.1:8787/app.html. Added a second disposable room, observed the compact selector, switched away/back without losing the draft, reloaded and observed the remembered destination and draft.
+
+Brave Elastic HTTP preview: compact onboarding rendered; paired the same disposable Chrome QA identity using both full fingerprint comparisons; selected the existing paired room and observed the three-field sharing form with the compact room selector. Brave also sent a Short using the Send button; the link was canonicalized in the form and its title/note arrived in the receiving inbox. These checks exercise the HTTP UI preview and shared use cases, not actual extension runtime APIs.
+
+Screenshot: ignored artifacts/compact-popup-0.4.png (Chrome ready form, cropped to its measured bounds). QR camera scanning, activeTab capture on an actual installed extension, background lifecycle, browser host-permission prompts, and automatic popup closing behavior remain manual release checks.
+
+Release validation uses matching tag/package/manifest versions, npm run verify, ZIP integrity, SHA256SUMS, and a downloaded published asset. Record actual CI/public download status in DISTRIBUTION/STATUS when completed.
