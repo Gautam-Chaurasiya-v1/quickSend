@@ -45,3 +45,10 @@ Official references:
 Version tag v0.4.0 points to aec2394b3f5031aa92716a0178897e4f2e514ee1. The Release extension workflow passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39114299967 and published the ZIP, SHA256SUMS, and checksums.json at https://github.com/Gautam-Chaurasiya-v1/quickSend/releases/tag/v0.4.0. Tag verification also passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39114299988.
 
 The public latest/download/quicksend-extension.zip URL was downloaded without embedding credentials; its manifest reports 0.4.0, its SHA-256 matches the published SHA256SUMS, and all 20 archive files match checksums.json. The tag remains fixed; subsequent documentation-only commits do not replace its artifacts. Reports/downloaded validation files remain under ignored artifacts/release-0.4.
+
+
+## Published 0.5.0 — October 18, 2026
+
+Version tag v0.5.0 points to b7eaf15b0245a7cd57d6787d1028aa375be34d08. The Release extension workflow passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39115925490 and published the extension ZIP, SHA256SUMS, and checksums.json at https://github.com/Gautam-Chaurasiya-v1/quickSend/releases/tag/v0.5.0. Tag verification passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39115925514; the main source verification passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39115891597.
+
+The public latest download URL was retrieved and verified: manifest version 0.5.0, ZIP hash matching SHA256SUMS, and all 21 packaged files matching checksums.json. Validation downloads are ignored under artifacts/release-0.5. The existing invitation page points at the latest release automatically; no Worker, D1, encryption, or paid-service update was needed. This source release adds in-popup Inbox and denser workspace layouts, while installed unpacked-extension updates remain manual. Replace files in the same installation folder and Reload; do not move a published tag or silently replace its assets.

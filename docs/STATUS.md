@@ -10,6 +10,6 @@ Remaining release checks: extension optional-host permission gesture, active You
 
 Known product limits: desktop Chromium extension, two people per room, YouTube only; no WebSockets, mobile companion, automatic key sync, independent device revocation, password reset, forward secrecy, or security audit. The invitation link still needs copy-and-paste into the unpacked extension.
 
-The previous 0.4.0 release is published and verified. Version 0.5.0 source is complete; see DISTRIBUTION.md for its actual release record after publication. The invitation download page is deployed as Worker version f913a409-feb8-4351-b2aa-bc84d69ef3bb. See DISTRIBUTION.md and DEPLOYMENT.md for the evidence. GitHub release hosting does not implement store installation or automatic unpacked updates.
+Version 0.5.0 is published through the passing release workflow, and the public ZIP, manifest version, and all 21 packaged file hashes are verified. See DISTRIBUTION.md for the release record. The invitation download page is deployed as Worker version f913a409-feb8-4351-b2aa-bc84d69ef3bb. See DISTRIBUTION.md and DEPLOYMENT.md for the evidence. GitHub release hosting does not implement store installation or automatic unpacked updates.
 
 Suggested next work: run the extension release checklist on both browsers; improve continuous device key synchronization only with a protocol design; then evaluate reactions/per-video saved state and measured push delivery. Preserve the free-plan constraint.

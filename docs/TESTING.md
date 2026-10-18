@@ -73,3 +73,5 @@ Chrome Gautam HTTP preview: Inbox opened inside the same popup.html page, displa
 Chrome and Brave Elastic HTTP previews both opened videos from the popup list. Browser tab IDs observed before/after clicking confirmed new YouTube tabs in the initiating browser. The actual extension chrome.tabs.create route is separately covered by a mocked API instance and still requires manual extension runtime verification. No OS/default-browser invocation is used.
 
 Screenshots are ignored artifacts/popup-inbox-0.5.png and artifacts/workspace-list-0.5.png. New extension permissions were not added. No backend change or repeated live write smoke was needed. Actual extension lifecycle, activeTab, host prompts, and popup-closing behavior remain manual; browser automation restrictions were respected.
+
+The 0.5.0 main/tag verification and release workflows passed. A public latest ZIP download reports 0.5.0 and matches the published archive hash and all 21 per-file hashes. See DISTRIBUTION.md for run links and the fixed tag commit. No cloud deployment was required.
