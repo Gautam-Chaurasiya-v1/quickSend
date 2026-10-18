@@ -1,5 +1,15 @@
 # Change log
 
+## 0.5.0 — 2026-10-18
+
+- Move Share/Inbox navigation to the popup header; Inbox now opens inside the popup with the same room picker, unread count, refresh, and compact scrollable rows. Full workspace is an explicit separate header action.
+- Keep share drafts intact when switching views. Fetch/acknowledge messages only for the currently visible inbox; reject stale room/view responses and queue a fresh refresh after navigation during a request.
+- Open verified YouTube links using the extension's own browser tabs API; browser previews retain native same-browser links. Add no permissions or OS/default-browser handoff.
+- Compact the full-page composer into a short horizontal row on wide screens, reduce repeated decoration/spacing, and retain responsive stacked fields for narrower layouts.
+- Add Cards/List controls with a remembered per-profile preference. Keep smaller cards available; use dense rows in the popup inbox and preserve its scroll position on refresh.
+- Add read-eligibility and browser-opening policy tests. Automated verification now passes 22 tests; browser preview evidence and actual extension runtime gaps are documented in TESTING.
+- No API, encryption, schema, hosting plan, or Worker deployment changes are required.
+
 ## 0.4.0 — 2026-10-18
 
 - Replace the popup dashboard with a compact 360px sharing surface: destination, link, title, optional note, and Send. Keep inbox/management in full view.

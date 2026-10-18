@@ -28,3 +28,8 @@ The popup optimizes sending: active-tab URL/title, remembered destination, optio
 ## 007 — Free release downloads before store publication
 
 Use the existing public GitHub repository for stable versioned download assets and a tag-triggered release workflow. This removes manual ZIP distribution without adding paid infrastructure. Developer-mode installation/updates remain manual; do not describe release hosting as store publication or automatic browser installation. Defer stable-ID website messaging until it has narrow origin/message validation and actual extension runtime tests. Keep ordinary CI read-only and release write access scoped to its publishing job.
+
+
+## 008 — Inbox in the popup, with explicit visibility-based reads
+
+This supersedes the inbox-in-full-view-only choice in decision 006. Users need to read a shared video without leaving the browser action. Keep Share and Inbox as small top-level controls, with full workspace as a separate action. Share stays three fields and Send; Inbox reuses verified message rendering in a bounded dense list. Reading state follows the currently visible room/view rather than fetching alone, including when navigation happens during a request. Keep the draft independent from feed/view state. On the desktop, retain cards and add a remembered dense list rather than removing either reading style.

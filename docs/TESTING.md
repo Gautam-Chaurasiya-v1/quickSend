@@ -62,3 +62,14 @@ Brave Elastic HTTP preview: compact onboarding rendered; paired the same disposa
 Screenshot: ignored artifacts/compact-popup-0.4.png (Chrome ready form, cropped to its measured bounds). QR camera scanning, activeTab capture on an actual installed extension, background lifecycle, browser host-permission prompts, and automatic popup closing behavior remain manual release checks.
 
 Release validation uses matching tag/package/manifest versions, npm run verify, ZIP integrity, SHA256SUMS, and a downloaded published asset. The tag-triggered Release extension and Verify workflows passed. A fresh download from the public latest ZIP URL reports version 0.4.0, matches SHA256SUMS, and matches all 20 per-file hashes. Details are in DISTRIBUTION/STATUS.
+
+
+## 0.5.0 inbox and density checks — October 18, 2026
+
+Automated: npm run verify passes 22 tests. New policy tests cover acknowledgements for the current visible/focused/verified room, hidden Share mode, navigation to another room, offline/modal-covered state, empty/error pages, and full workspace. Browser-opening tests validate canonical YouTube-only routing through the supplied tabs API. These are policy/API-instance tests, not actual extension execution.
+
+Chrome Gautam HTTP preview: Inbox opened inside the same popup.html page, displayed room videos, and Share returned to exactly three fields with the draft intact. A peer sent a disposable QA video; Share showed Inbox with 1 unread after reload, and opening Inbox displayed it and cleared the unread count. Full workspace switched Cards/List and remembered List across reload. Ten local QA entries exercised density: the wide-screen composer measured 77.5px high, rows 58px, five complete rows fit in the default 635px-high viewport with another row partly visible, and no horizontal overflow was observed.
+
+Chrome and Brave Elastic HTTP previews both opened videos from the popup list. Browser tab IDs observed before/after clicking confirmed new YouTube tabs in the initiating browser. The actual extension chrome.tabs.create route is separately covered by a mocked API instance and still requires manual extension runtime verification. No OS/default-browser invocation is used.
+
+Screenshots are ignored artifacts/popup-inbox-0.5.png and artifacts/workspace-list-0.5.png. New extension permissions were not added. No backend change or repeated live write smoke was needed. Actual extension lifecycle, activeTab, host prompts, and popup-closing behavior remain manual; browser automation restrictions were respected.

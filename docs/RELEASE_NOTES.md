@@ -1,14 +1,13 @@
-QuickSend 0.4.0 is a friend-beta release for desktop Chrome and Brave.
+QuickSend 0.5.0 is a friend-beta release for desktop Chrome and Brave.
 
-- Compact 360px sharing popup: destination, YouTube link, title, optional note, and Send.
-- Captures the active YouTube link/title when invoked, removes tracking, remembers your room, restores matching drafts, and supports Ctrl/Command + Enter.
-- Full room management and inbox remain available from Rooms & inbox. Merely opening the sharing popup does not mark inbox messages read.
-- Encrypted two-person rooms and approved browser pairing use the existing Free-plan backend.
+- Share and Inbox are now in the popup's top bar. Inbox opens inside the popup; switching back keeps the draft.
+- Inbox uses compact rows, unread counts, room selection, refresh, and video links that open in the same browser running QuickSend.
+- The full workspace has a much smaller sharing form and Cards/List controls with a remembered per-profile layout.
+- Share mode does not mark messages read. Inbox acknowledges only the current visible/focused verified room, with guards against responses arriving after navigation.
+- 22 automated tests pass. Chrome/Brave HTTP preview checks cover inbox navigation, unread behavior, draft preservation, browser link opening, and compact layouts. Actual extension runtime/lifecycle checks remain manual.
 
-Download **quicksend-extension.zip**, extract it, open chrome://extensions or brave://extensions, enable Developer mode, choose Load unpacked, and select the extracted folder containing manifest.json. Keep that folder; the browser loads files from it. For updates, back up your identity, replace files in that same folder, and click Reload on the extension card. Moving to a different unpacked path can change the extension ID and its local storage.
+Download **quicksend-extension.zip**, extract it, open chrome://extensions or brave://extensions, enable Developer mode, choose Load unpacked, and select the extracted folder containing manifest.json. Keep that folder. For an existing installation, export an identity backup, replace files in the same folder, and click Reload on its extension card. Moving paths can change an unpacked extension's ID/local storage.
 
-Use your own name and the default public server. Your friend creates their own identity and joins a room invitation; Pair this browser is only for devices you own. Compare full fingerprints before approval.
+Use your own name and the default public server. Friends create separate identities and join invitations; Pair this browser is only for devices you own. Compare complete fingerprints before approval.
 
-This release is not a Web Store installation and does not auto-update installed unpacked copies. A browser-required manual installation remains. No new extension permissions were added. Actual activeTab capture and MV3 lifecycle checks still require manual verification; see docs/TESTING.md. No mobile companion or independent security audit is provided.
-
-SHA256SUMS verifies the ZIP; checksums.json contains hashes of the extension files. Source and detailed change history are included in the repository.
+No new extension permissions, API/schema changes, paid resources, or backend deployment are required. This is not a Web Store installation; unpacked installation/updates remain manual. No mobile companion or independent security audit is provided. SHA256SUMS verifies the ZIP; checksums.json contains the packaged file hashes.

@@ -2,7 +2,7 @@
 
 A browser extension for the moment you think, “you have to watch this.” Two people pair once, then share YouTube videos in a private inbox. Chrome and Brave use the same MV3 extension.
 
-**Status:** source release 0.4.0 adds a compact sharing popup and free automated GitHub release downloads, on top of invitation links/QR and approved browser pairing. See [current release/deployment status](docs/STATUS.md). Working local application and deployed Cloudflare Worker/D1 backend, with automated integration tests and browser-tested room pairing and bidirectional sharing. Chrome installation, popup rendering, and full-page opening were verified. Full extension lifecycle testing remains manual because browser automation blocks extension URLs. Not independently security-audited. Do not describe it as hack-proof or audited production software.
+**Status:** source release 0.5.0 adds an in-popup inbox, a compact full-page composer, and remembered Cards/List layouts, on top of automatic capture, free release downloads, and approved browser pairing. See [current release/deployment status](docs/STATUS.md). Working local application and deployed Cloudflare Worker/D1 backend, with automated integration tests and browser-tested room pairing and bidirectional sharing. Chrome installation, popup rendering, and full-page opening were verified. Full extension lifecycle testing remains manual because browser automation blocks extension URLs. Not independently security-audited. Do not describe it as hack-proof or audited production software.
 
 ## Run locally — no accounts or purchases
 
@@ -43,9 +43,9 @@ npm run verify
 
 **Localhost is only your own computer.** Two people on different computers need the public HTTPS backend described below. Your friend must use the same deployed server origin.
 
-The 360px popup captures the active YouTube video’s canonical link and cleaned title when you click the extension. It opens your only room or remembers the previous room. With multiple rooms, change the destination using the compact To selector. Add a note if wanted, then Send (or Ctrl/⌘ + Enter). These are the only three input fields; room management and the inbox are under **Rooms & inbox**.
+The 360px popup captures the active YouTube video’s canonical link and cleaned title when you click the extension. It opens your only room or remembers the previous room. With multiple rooms, change the destination using the compact To selector. Add a note if wanted, then Send (or Ctrl/⌘ + Enter). These are the only three share fields. **Share / Inbox** are in the popup header: Inbox opens inside the popup and shows dense rows for the selected room. Video links open in the same browser/profile running QuickSend. The ↗ header button opens the full workspace for room management.
 
-The popup restores drafts for the same video for up to 24 hours; a newly captured different video starts without the previous note. No new permissions, page scripts, title API requests, remote thumbnails, or background browsing capture are used. Full view supports pasted URLs and does not inspect other tabs. Opening the popup alone does not mark inbox messages read. If YouTube has not updated its tab title yet, the captured title may need editing; page-content scraping is not implemented.
+The popup restores drafts for the same video for up to 24 hours; a newly captured different video starts without the previous note. No new permissions, page scripts, title API requests, remote thumbnails, or background browsing capture are used. Full view supports pasted URLs and does not inspect other tabs. Its composer uses one compact row on wide screens, and **Cards / List** switches between video cards and dense rows. The layout is remembered separately in each browser profile. Opening Share mode does not mark inbox messages read; opening the visible, focused Inbox does. Drafts survive switching between Share and Inbox. If YouTube has not updated its tab title yet, the captured title may need editing; page-content scraping is not implemented.
 
 ### Use your identity in both Chrome and Brave
 

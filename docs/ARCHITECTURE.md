@@ -9,6 +9,7 @@ QuickSend uses JavaScript ES modules and browser-native Web Crypto. The MV3 popu
 | Device operations | Pairing request, encrypted snapshot, restore validation | `extension/lib/pairing.js` |
 | Protocol primitives | AES-GCM, ECDH/HKDF, fingerprints, password backups | `extension/lib/crypto.js` |
 | Storage | Trusted extension local storage or development localStorage, serialized updates | `extension/lib/storage.js` |
+| Inbox policy | Visible/current-room read eligibility and same-browser YouTube routing | `extension/lib/inbox.js` |
 | Capture/compose | Active-tab metadata, bounded draft restoration, destination selection | `extension/lib/compose.js` |
 | Transport | Bounded authenticated requests, timeout, redirect rejection | `extension/lib/api.js` |
 | Configuration/input | Public default origin, explicit override, canonical URLs and invites | `extension/lib/config.js`, `validation.js` |
@@ -47,6 +48,17 @@ Production API CORS permits extension origins only. The invite page has a `conne
 
 On action-popup open, captureYouTube queries only the invoked active tab, canonicalizes recognized YouTube video/Short/live URLs, and cleans the tab title. It needs no new permission or content script. Title freshness depends on YouTube/browser tab metadata. Capture failures allow manual entry. Full view never queries the active tab.
 
-The popup selects its stored destination, otherwise the first ready room or first pending room. Changing rooms does not reset the compose form. A single local composeDraft restores matching video edits for up to 24 hours; a different capture drops the previous note. These drafts are local plaintext like identity keys and become encrypted only on send; they are not server-synced, part of backups, or included in device snapshots. Sending or queueing clears the draft. The popup polls room metadata but skips message fetching/read acknowledgement, so opening it does not consume unread inbox state.
+The popup selects its stored destination, otherwise the first ready room or first pending room. Changing rooms does not reset the compose form. A single local composeDraft restores matching video edits for up to 24 hours; a different capture drops the previous note. These drafts are local plaintext like identity keys and become encrypted only on send; they are not server-synced, part of backups, or included in device snapshots. Sending or queueing clears the draft. Share mode polls room metadata and skips message fetching/read acknowledgement. Inbox mode fetches the selected room and acknowledges it only while current, visible, focused, online, and fully verified.
 
 GitHub Releases hosts the downloadable ZIP. scripts/package.js invokes the system zip utility and writes SHA256SUMS. A matching version tag triggers verification and release publication, with contents-write scoped to that job. No remote code is loaded by an installed extension and no automatic unpacked-extension update is attempted. See DISTRIBUTION.md for the boundary between download hosting and browser-managed installation.
+
+
+## In-popup inbox and dense workspace (0.5)
+
+app.js tracks popup view separately from the selected room and compose fields. Share is the default on open; switching to Inbox changes the current UI without creating a tab. Full workspace is an explicit ↗ action. Both surfaces render the same verified messages. The popup forces a dense list; the desktop Cards/List preference is stored as local feedLayout and is not part of identity snapshots/backups.
+
+Refresh requests are serialized with a follow-up refresh when navigation happens mid-request. A message response for an old room or hidden inbox cannot populate/acknowledge the current view. The read-policy helper also checks visibility, focus, offline status, and message verification. The list is rendered before a read request. Switching back to Share keeps the draft intact and clears the hidden feed. Popup feed scroll position is restored on rerender, with a reset when selecting another room.
+
+Verified video links use chrome.tabs.create through the extension's own API instance, so Chrome opens Chrome and Brave opens Brave rather than using the OS default browser. No tabs-reading or other new permission is added. HTTP previews use ordinary target=_blank links; actual extension URL automation remains blocked, and preview checks do not establish the extension API's runtime behavior.
+
+The full-page composer is smaller through HTML/CSS changes only. No server, database, encryption, or hosted-page redeployment is necessary for this release.

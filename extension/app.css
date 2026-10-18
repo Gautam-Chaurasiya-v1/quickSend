@@ -9,7 +9,7 @@
 .quick-only{display:none!important}
 body.popup{width:360px;min-width:360px;max-height:600px;overflow-y:auto}
 .popup .shell{display:block;min-height:0}
-.popup .sidebar,.popup .topbar,.popup .room-header,.popup #feed-header,.popup #feed,.popup #load-older,.popup #empty,.popup .workspace-footer,.popup .compose-icon,.popup .compose .eyebrow,.popup #current-title,.popup #share-context{display:none!important}
+.popup .sidebar,.popup .topbar,.popup .room-header,.popup .workspace-footer,.popup .compose-icon,.popup .compose .eyebrow,.popup #current-title,.popup #share-context{display:none!important}
 .popup .quick-only{display:flex!important}.popup .quick-only[hidden]{display:none!important}
 .popup .quick-header{align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid var(--line)}
 .quick-header strong{font-size:16px;letter-spacing:-.5px}.quick-header strong span{color:var(--green);margin-left:4px}
@@ -27,3 +27,51 @@ body.popup{width:360px;min-width:360px;max-height:600px;overflow-y:auto}
 .popup .quick-empty{flex-direction:column;gap:12px;font-size:12px;padding:14px 0}.quick-empty>div{display:flex;gap:8px}.quick-empty .button{font-size:11px;padding:8px 10px}
 .popup .onboarding{padding:14px 16px}.popup .intro-badge,.popup .intro-copy,.popup .intro-footer,.popup .step-label,.popup .local-identity{display:none}.popup .onboarding h1{font-size:23px;line-height:1.1;letter-spacing:-.7px;margin:4px 0 12px}.popup .onboarding h1 br{display:none}.popup .setup-card{padding:12px;margin:0;border-radius:9px}.popup .text-button{font-size:10px}.popup dialog{width:calc(100% - 20px);max-height:550px;overflow:auto;padding:16px}.popup dialog h2{font-size:20px}.popup dialog p{font-size:12px}.popup .fingerprint{font-size:11px;overflow-wrap:anywhere}
 select:focus-visible{outline:2px solid #5b8c55;outline-offset:3px}
+
+/* Compact navigation and a deliberately separate in-popup inbox. */
+.view-switch{display:inline-flex;gap:2px;padding:3px;background:#edf1e9;border:1px solid var(--line);border-radius:9px}
+.view-switch button{font:inherit;font-size:11px;border:0;border-radius:6px;padding:6px 10px;background:transparent;color:#526b5c;white-space:nowrap}
+.view-switch button[aria-pressed="true"]{background:#fff;color:#215e48;box-shadow:0 1px 3px #173d2220;font-weight:650}
+.quick-actions,.inbox-actions{display:flex;gap:4px;align-items:center}.quick-actions .icon-button{min-width:25px;height:28px;font-size:18px}
+.popup .quick-header{gap:8px;position:sticky;top:0;z-index:2;background:var(--cream);padding:10px 12px}
+.quick-header strong{font-size:14px}.quick-header .view-switch{margin-left:auto}.quick-header .view-switch button{font-size:11px;padding:6px 8px}
+#quick-unread{display:inline-block;background:var(--green);color:white;border-radius:8px;font-size:9px;min-width:15px;padding:1px 4px;margin-left:2px}
+.popup:not(.show-inbox) #feed-header,.popup:not(.show-inbox) #feed,.popup:not(.show-inbox) #load-older,.popup:not(.show-inbox) #empty{display:none!important}
+.popup.show-inbox #compose,.popup.show-inbox #quick-capture{display:none!important}
+.popup.show-inbox #feed-header{display:flex;margin:10px 0 8px;align-items:center}.popup.show-inbox #feed-header h2{font-size:12px}
+.popup.show-inbox #feed-header p,.popup #feed-layout{display:none}
+.popup.show-inbox #feed{display:grid;max-height:385px;overflow-y:auto;overscroll-behavior:contain;padding:1px}
+.popup .quick-footer{justify-content:center;margin:4px 0 0;padding:5px 0}.popup .quick-footer span{font-size:9px}
+.popup #empty{padding:20px 0}.popup #empty .empty-art{display:none}.popup #empty h2{font-size:15px}.popup #empty p{font-size:11px;margin:6px 0}
+.popup .older{margin:8px 0;width:100%;font-size:11px;padding:8px}
+/* Full workspace keeps the compose form in one small row when space permits. */
+body:not(.popup) .shell{grid-template-columns:220px minmax(0,1fr)}
+body:not(.popup) .sidebar{padding:22px 14px 16px}body:not(.popup) .sidebar-caption{display:none}body:not(.popup) .sidebar-heading{margin-top:26px}
+body:not(.popup) .topbar{height:52px;padding:0 24px}body:not(.popup) #workspace{padding:20px 24px 14px;max-width:1480px}
+body:not(.popup) .room-header{margin-bottom:14px;gap:12px}body:not(.popup) .room-header .eyebrow{display:none}
+body:not(.popup) .room-header h1{font-size:25px;letter-spacing:-.8px;margin:0 0 5px}body:not(.popup) .room-header p:not(.eyebrow){font-size:11px;color:#65785f}
+body:not(.popup) .room-header .button{font-size:10px;padding:8px 12px}
+body:not(.popup) .compose{display:block;padding:12px 14px;margin-bottom:18px;border-radius:11px}
+body:not(.popup) .compose-icon,body:not(.popup) .compose-body>.eyebrow,body:not(.popup) #current-title,body:not(.popup) #share-context{display:none}
+body:not(.popup) #share-form{display:grid;grid-template-columns:minmax(160px,1.2fr) minmax(140px,1fr) minmax(110px,1fr) auto;gap:10px;align-items:end}
+.compose-field{min-width:0}body:not(.popup) .compose-label{margin:0 0 5px;font-size:10px}
+body:not(.popup) .compose input{height:35px;padding:8px 9px;border:1px solid #cbd8c4;border-radius:7px;background:#fff;font-size:12px}
+body:not(.popup) .compose-bottom{margin:0}body:not(.popup) #send{height:35px;padding:8px 16px}
+body:not(.popup) .feed-header{margin:16px 0 12px}body:not(.popup) .feed-header h2{font-size:14px}body:not(.popup) .feed-header p{display:none}
+body:not(.popup) .feed:not(.feed-list){gap:14px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+body:not(.popup) .feed:not(.feed-list) .video-cover{height:85px}body:not(.popup) .feed:not(.feed-list) .card-body{padding:12px}
+body:not(.popup) .workspace-footer{margin-top:18px}
+/* Both surfaces reuse the same verified message entries in the dense list. */
+.feed.feed-list{grid-template-columns:minmax(0,1fr);gap:6px}
+.feed-list .video-card{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:11px;padding:10px 12px;border-radius:9px;min-height:58px}
+.feed-list .video-cover{height:32px;width:32px;border-radius:8px}.feed-list .video-cover:before,.feed-list .video-cover:after,.feed-list .cover-tag{display:none}
+.feed-list .cover-play{height:28px;width:28px;font-size:11px;background:transparent}
+.feed-list .card-body{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px 12px;padding:0;min-width:0}
+.feed-list h3{grid-column:1;margin:0;font-size:12px;line-height:1.45;min-width:0}.feed-list h3 a{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feed-list .card-note{grid-column:1;grid-row:2;font-size:11px;line-height:1.4;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#5e715c}
+.feed-list .card-meta{padding-top:0;border-top:0;grid-column:2;grid-row:1 / span 2;gap:6px;margin:0;white-space:nowrap;font-size:10px;color:#61765b}.feed-list .card-meta time{margin-left:8px}.feed-list .tiny-avatar{display:none}
+.popup .feed-list .video-card{padding:8px;gap:8px;min-height:61px}.popup .feed-list .card-body{display:flex;flex-direction:column;align-items:stretch;gap:2px}.popup .feed-list h3{font-size:12px}.popup .feed-list .card-note{font-size:10px}.popup .feed-list .card-meta{font-size:9px;gap:5px}.popup .feed-list .card-meta time{margin-left:auto}
+@media(max-width:1000px){body:not(.popup) #share-form{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}body:not(.popup) #share-form .compose-bottom{justify-self:stretch}body:not(.popup) #send{width:100%}}
+@media(max-width:600px){body:not(.popup) .shell{display:block}body:not(.popup) .sidebar{height:auto;position:static;padding:14px}body:not(.popup) .sidebar-heading{margin-top:14px}body:not(.popup) .sidebar-bottom{padding-top:0}body:not(.popup) #workspace{padding:16px}body:not(.popup) .topbar{padding:0 16px}body:not(.popup) .room-header h1{font-size:22px}.feed-list .card-body{grid-template-columns:minmax(0,1fr)}.feed-list .card-meta{grid-column:1;grid-row:3;white-space:normal}.feed-list .card-meta time{margin-left:auto}}
+
+body:not(.popup) #expand,body:not(.popup) #inbox-refresh{display:none}

@@ -53,6 +53,11 @@ Invitation links place the capability in a fragment, which HTTP requests omit. T
 
 The optional local compose draft holds the link/title/note in plaintext profile storage before sharing, as the form already does in memory. It is never transmitted until explicit Send, never backed up or device-transferred, ignored after 24 hours, and cleared on successful send/queue and when restoring/replacing an identity. An old expired draft may remain stored until replaced or cleared; the time bound is for restoration, not guaranteed secure erasure. A different captured video cannot inherit its note.
 
-Capture uses only activeTab URL/title metadata on extension invocation, with no new permissions, clipboard reading, content scripts, or remote title/thumbnail requests. The compact popup does not acknowledge hidden messages as read.
+Capture uses only activeTab URL/title metadata on extension invocation, with no new permissions, clipboard reading, content scripts, or remote title/thumbnail requests. Share mode does not acknowledge hidden messages as read. Inbox mode acknowledges only the currently selected, visible, focused, online, unobscured room after verified messages render; a late response for an old room/view cannot consume unread state.
 
 GitHub release ZIPs are executable extension distributions: publish only verified source/version tags. Release CI has contents-write only for the release job, using the ephemeral GitHub token. Published ZIPs include third-party license notices and hashes. Hashes detect accidental byte changes but are not independent publisher signatures. Friends still explicitly install/reload through their browser; the extension never downloads or executes release code automatically. Store distribution and a validated invitation handoff are deferred.
+
+
+## Popup inbox and navigation (0.5)
+
+The Inbox view reuses message decryption and validation before rendering. Unread acknowledgements require the current room/view and verified messages, not merely a successful fetch. List layout is local presentation state. Video routing revalidates the canonical YouTube URL and uses the current extension browser's tabs API; no external OS handler, new website access, or executable content is introduced. The HTTP preview uses ordinary browser links. API authorization, identity/key storage, encryption envelopes, and retention remain unchanged.

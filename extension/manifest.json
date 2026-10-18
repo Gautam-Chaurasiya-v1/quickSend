@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "QuickSend — Private Video Rooms",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A small, private place to share YouTube videos with your people. Encrypted on your device.",
   "permissions": ["activeTab", "storage", "alarms"],
   "optional_host_permissions": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
