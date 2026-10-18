@@ -10,6 +10,6 @@ Remaining release checks: extension optional-host permission gesture, active You
 
 Known product limits: desktop Chromium extension, two people per room, YouTube only; no WebSockets, mobile companion, automatic key sync, independent device revocation, password reset, forward secrecy, or security audit. The invitation link still needs copy-and-paste into the unpacked extension.
 
-Download distribution and the 0.4 invitation-page change: see DISTRIBUTION.md and DEPLOYMENT.md for actual publication/deployment status. GitHub release hosting does not implement store installation or automatic unpacked updates.
+Version 0.4.0 is published through the passing tag-triggered GitHub release workflow, with the public ZIP and all file hashes verified. The invitation download page is deployed as Worker version f913a409-feb8-4351-b2aa-bc84d69ef3bb. See DISTRIBUTION.md and DEPLOYMENT.md for the evidence. GitHub release hosting does not implement store installation or automatic unpacked updates.
 
 Suggested next work: run the extension release checklist on both browsers; improve continuous device key synchronization only with a protocol design; then evaluate reactions/per-video saved state and measured push delivery. Preserve the free-plan constraint.

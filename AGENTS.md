@@ -18,7 +18,7 @@ QuickSend is a Manifest V3 extension for two-person encrypted YouTube sharing ro
 
 Node 24+, no dependency install required. `npm run dev` serves loopback port 8787; `QUICKSEND_PORT=8788 npm run dev` avoids an existing server. `npm run verify` checks syntax, tests the real handler against SQLite, and builds `dist/extension` plus checksums.
 
-`extension/app.js` controls DOM; `lib/client.js` owns room use cases; `lib/pairing.js` owns device transfer; `lib/crypto.js` owns versioned encryption; `lib/storage.js` abstracts profile storage. `server/worker.js` is the API and scheduled cleanup. `server/landing.js` serves the isolated invite page. `server/dev.js` and tests reuse these handlers. Add numbered SQL migrations; never rewrite an already deployed migration.
+`extension/app.js` controls DOM; `lib/client.js` owns room use cases; `lib/pairing.js` owns device transfer; `lib/compose.js` owns invoked-tab capture, destination choice, and draft restoration; `lib/crypto.js` owns versioned encryption; `lib/storage.js` abstracts profile storage. `server/worker.js` is the API and scheduled cleanup. `server/landing.js` serves the isolated invite page. `server/dev.js` and tests reuse these handlers. Add numbered SQL migrations; never rewrite an already deployed migration.
 
 ## Invariants
 

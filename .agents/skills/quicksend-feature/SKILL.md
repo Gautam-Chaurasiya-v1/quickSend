@@ -5,7 +5,7 @@ description: Implement or change QuickSend onboarding, room sharing, invitations
 
 Read root AGENTS.md, docs/ARCHITECTURE.md, and the relevant section of docs/SECURITY.md. Consult docs/STATUS.md for source versus live deployment gaps.
 
-Trace app.js → client.js or pairing.js → api.js → worker.js before editing. Keep DOM interaction in app.js and use cases in the library. Preserve identical popup/full-page shells.
+Trace app.js → compose.js, client.js, or pairing.js → api.js → worker.js as relevant before editing. Capture/room selection/draft rules are in compose.js and tests/compose.test.js; keep capture restricted to invocation metadata. Keep DOM interaction in app.js and use cases in the library. Preserve identical popup/full-page shells.
 
 For data changes, add a numbered migration and test it with createDatabase(), which loads all idempotent DDL migrations. Before non-idempotent migrations, add local migration tracking. Never edit deployed migration 0001.
 

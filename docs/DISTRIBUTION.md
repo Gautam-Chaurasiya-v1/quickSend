@@ -38,3 +38,10 @@ Official references:
 - https://developer.chrome.com/docs/webstore/publish
 - https://developer.chrome.com/docs/extensions/reference/manifest/key
 - https://developer.chrome.com/docs/extensions/reference/manifest/externally-connectable
+
+
+## Published 0.4.0 — October 18, 2026
+
+Version tag v0.4.0 points to aec2394b3f5031aa92716a0178897e4f2e514ee1. The Release extension workflow passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39114299967 and published the ZIP, SHA256SUMS, and checksums.json at https://github.com/Gautam-Chaurasiya-v1/quickSend/releases/tag/v0.4.0. Tag verification also passed at https://github.com/Gautam-Chaurasiya-v1/quickSend/actions/runs/39114299988.
+
+The public latest/download/quicksend-extension.zip URL was downloaded without embedding credentials; its manifest reports 0.4.0, its SHA-256 matches the published SHA256SUMS, and all 20 archive files match checksums.json. The tag remains fixed; subsequent documentation-only commits do not replace its artifacts. Reports/downloaded validation files remain under ignored artifacts/release-0.4.

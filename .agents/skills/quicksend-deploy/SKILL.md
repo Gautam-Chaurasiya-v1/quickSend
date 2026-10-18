@@ -12,3 +12,5 @@ Dry-run the Worker bundle. Apply numbered D1 migrations before deploying code th
 Verify health, invite landing CSP, and explicit-target API smoke. For pairing changes test capability denial, encrypted roundtrip, immutable approval, cancellation, and expiry on the intended environment. Record version ID, migration state, checks, and gaps in DEPLOYMENT/STATUS. A GitHub push does not establish live deployment.
 
 Close disposable smoke rooms; delete only exact QA identity IDs when authorized. Keep reports in ignored artifacts without credentials. Log out temporary OAuth after completion. If cloud authentication is unavailable, finish packaging/docs and record deployment pending.
+
+For GitHub download publication, follow docs/DISTRIBUTION.md. A pushed matching version tag triggers the separately scoped release workflow. Store installation and automatic unpacked updates are not implemented by release hosting. Record actual asset/hash verification separately from Worker deployment.

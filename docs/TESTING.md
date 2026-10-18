@@ -61,4 +61,4 @@ Brave Elastic HTTP preview: compact onboarding rendered; paired the same disposa
 
 Screenshot: ignored artifacts/compact-popup-0.4.png (Chrome ready form, cropped to its measured bounds). QR camera scanning, activeTab capture on an actual installed extension, background lifecycle, browser host-permission prompts, and automatic popup closing behavior remain manual release checks.
 
-Release validation uses matching tag/package/manifest versions, npm run verify, ZIP integrity, SHA256SUMS, and a downloaded published asset. Record actual CI/public download status in DISTRIBUTION/STATUS when completed.
+Release validation uses matching tag/package/manifest versions, npm run verify, ZIP integrity, SHA256SUMS, and a downloaded published asset. The tag-triggered Release extension and Verify workflows passed. A fresh download from the public latest ZIP URL reports version 0.4.0, matches SHA256SUMS, and matches all 20 per-file hashes. Details are in DISTRIBUTION/STATUS.

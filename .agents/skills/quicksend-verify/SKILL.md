@@ -12,3 +12,5 @@ Use available browser-control tools for UI tests, not hidden storage mutations o
 Record the environment and exact flows actually passed. HTTP previews do not prove MV3 host permissions, activeTab capture, alarms, badge, or lifecycle behavior. Follow the manual release checklist. Screenshots go under ignored artifacts.
 
 Run node scripts/smoke.js with an explicit deployed origin only when authorized; it creates QA identities and closes its room. Report identity cleanup separately. Update TESTING/STATUS and include failures and limitations in the handoff.
+
+For releases, follow docs/DISTRIBUTION.md: run npm run package after verify, validate the tag/version agreement, and check the downloaded public ZIP against SHA256SUMS and every file hash. Mocked tab metadata does not prove actual activeTab capture.

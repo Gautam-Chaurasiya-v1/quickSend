@@ -70,3 +70,14 @@ Reports are in ignored `artifacts/live-smoke-report.json` and `artifacts/live-pa
 ## 0.4.0 scope
 
 The extension popup and GitHub release automation change without a new database migration. The Worker change only adds the public release download button and installation steps to the isolated invitation page; API formats, room limits, encryption, cron, and Free-plan resources are unchanged. See the final deployment entry below for actual publication status. Release download publication is separate from Cloudflare deployment.
+
+
+## 0.4.0 invitation-page deployment — October 18, 2026
+
+- Worker version f913a409-feb8-4351-b2aa-bc84d69ef3bb deployed to the same origin after a successful Wrangler dry-run (22.80 KiB / gzip 6.66 KiB).
+- The isolated invitation page now links to the public latest GitHub release ZIP and includes Load unpacked instructions. Its connect-src remains none.
+- Live health, download-link markup, isolated CSP, and fragment-clearing script checks passed. The public GitHub download itself was retrieved and verified against its published ZIP/file hashes.
+- No database migration, room API/encryption format, plan, cron, or service changes were required. The room/pairing integration tests remain green; repeated live writes were unnecessary for this page-only backend change.
+- The temporary OAuth session reused the previously approved limited scopes and was successfully logged out afterward.
+
+The landing verification report is ignored artifacts/landing-0.4-report.json. Release publication and build/download verification are recorded in DISTRIBUTION.md. These results do not establish actual activeTab or MV3 lifecycle browser testing.
